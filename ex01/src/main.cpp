@@ -1,8 +1,9 @@
 #include <iostream>
 #include <stack>
 #include <cstdlib>
+#include <climits>
 
-void print_stack(std::stack<int> c)
+void print_stack(std::stack<long long> c)
 {
     while (!c.empty()) {
         std::cout << c.top() << " ";
@@ -17,43 +18,49 @@ int main(int argc, char **argv) {
 
     std::string input = argv[1];
 
-    std::stack<int> stack;
+    std::stack<long long> stack;
 
     size_t i = 0;
     while (i < input.size()) 
     {
-        if (std::isdigit(input[i]) || (input[i] == '-' && i + 1 < input.size() && std::isdigit(input[i + 1]))) 
+        if (std::isdigit(input[i])) 
         {
-            int sign = 1;
-            if (input[i] == '-') {
-                sign = -1;
-                i++;
-            }
-            int nb = sign * (input[i] - '0');
-            stack.push(nb);
+            long long nb = input[i] - '0';
+            if (nb >= 0 && nb <= 9)
+                stack.push(nb);
+            else
+                return (std::cerr << "Error" << std::endl, EXIT_FAILURE);
         } 
         else if (input[i] != ' ') 
         {
             if (stack.size() < 2)
                 return (std::cerr << "Error" << std::endl, EXIT_FAILURE);
 
-            int nb1 = stack.top();
+            long long nb1 = stack.top();
             stack.pop();
-            int nb2 = stack.top();
+            long long nb2 = stack.top();
             stack.pop();
 
             switch (input[i]) 
             {
                 case '+':
+                    if (nb2 + nb1 > INT_MAX)
+                        return (std::cerr << "Error" << std::endl, EXIT_FAILURE);
                     stack.push(nb2 + nb1);
                     break;
                 case '-':
+                    if (nb2 - nb1 < INT_MIN)
+                        return (std::cerr << "Error" << std::endl, EXIT_FAILURE);
                     stack.push(nb2 - nb1);
                     break;
                 case '*':
+                    if (nb2 * nb1 > INT_MAX)
+                        return (std::cerr << "Error" << std::endl, EXIT_FAILURE);
                     stack.push(nb2 * nb1);
                     break;
                 case '/':
+                    if (nb1 == 0)
+                        return (std::cerr << "Error" << std::endl, EXIT_FAILURE);
                     stack.push(nb2 / nb1);
                     break;
                 default:
@@ -64,7 +71,6 @@ int main(int argc, char **argv) {
         while (i < input.size() && input[i] == ' ')
             i++;
     }
-
     if (stack.size() > 1)
         return (std::cerr << "Error" << std::endl, EXIT_FAILURE);
     print_stack(stack);

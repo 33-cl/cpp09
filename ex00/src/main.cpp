@@ -8,7 +8,7 @@ int main(int argc, char **argv)
     std::map<std::string, float>    data;
     std::ifstream                   file(argv[1]);
     if (!file)
-        return (std::cout << "Error: could not open file\n", 1);
+        return (std::cout << "Error: could not open file.\n", 1);
 
     try
     {
@@ -21,6 +21,8 @@ int main(int argc, char **argv)
 
     std::string line;
     std::getline(file, line); // Skip first line
+    if (line != "date | value")
+        return (std::cout << "Error: line 1 should be 'date | value'\n", 1);
 
     while (std::getline(file, line))
     {

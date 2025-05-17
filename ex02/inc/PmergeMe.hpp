@@ -7,15 +7,16 @@
 #include <cctype>
 #include <deque>
 #include <ctime>
+#include <algorithm>
 
-void    print_vec(std::vector<int> vec);
-void    print_deq(std::deque<int> vec);
+template <typename Container>
+void print_container(const Container& container);
 
-std::vector<int> parse_args_vec(int argc, char** argv);
-std::deque<int> parse_args_deq(int argc, char** argv);
+template <typename Container>
+Container parse_args(int argc, char** argv);
 
 template <typename T>
-void    swap(T& val1, T& val2)
+void swap(T& val1, T& val2)
 {
     T   temp;
 

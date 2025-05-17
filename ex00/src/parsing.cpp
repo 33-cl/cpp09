@@ -20,51 +20,12 @@ std::map<std::string, float>    extract_data()
     return data;
 }
 
-// void    parse_line(std::string line)
-// {
-//     // Import current time
-//     std::time_t t = std::time(0);
-//     std::tm*    now = std::localtime(&t);
-
-//     if (line.size() < 14)
-//         throw std::length_error("Error: bad input => " + line);
-
-//     // Parse year
-//     int year = atoi((line.substr(0, 4)).c_str());
-//     if (year < 2009 || year > now->tm_year + 1900 || line[4] != '-')
-//         throw std::invalid_argument("Error: bad input => " + line);
-
-//     // Parse month
-//     int month = atoi((line.substr(5, 2)).c_str());
-//     if (month < 1 || month > 12 || line[7] != '-')
-//         throw std::invalid_argument("Error: bad input => " + line);
-
-//     // Parse day
-//     int day = atoi((line.substr(8, 2)).c_str());
-//     if (day < 1 || day > 31)
-//         throw std::invalid_argument("Error: bad input => " + line);
-
-//     //std::cout << line.substr(10, 3) << std::endl;
-//     if (line.substr(10, 3) != " | ")
-//         throw std::invalid_argument("Error: bad input => " + line);
-
-//     // Parse value
-//     std::string strval = line.substr(13, line.size() - 1);
-//     if (!is_all_num(strval))
-//         throw std::invalid_argument("Error: bad value " + strval);
-//     float value = atof(strval.c_str());
-//     if (value < 0)
-//         throw std::invalid_argument("Error: not a positive number");
-//     if (value > 1000)
-//         throw std::invalid_argument("Error: too large number");
-
-// }
-
 /*
     Returns a bool indicating if the year is leap    
 */
 
-bool is_leap_year(int year) {
+bool is_leap_year(int year) 
+{
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
@@ -98,7 +59,7 @@ void parse_line(const std::string& line) {
 
     // Parse day
     int day = std::atoi(line.substr(8, 2).c_str());
-    if (!is_valid_day(year, month, day))
+    if ((year == 2009 && month == 01 && day == 01) || !is_valid_day(year, month, day))
         throw std::invalid_argument("Error: invalid date => " + line);
 
     // Check date is not in the future
